@@ -1,0 +1,488 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartPlan | Assignment Planner</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <!-- LOGIN / SIGNUP SCREEN -->
+<section id="auth-screen" class="auth-screen" hidden>
+    <div class="auth-card">
+        <div class="auth-brand">
+            <img class="auth-logo" src="./smartplan-logo.png" alt="SmartPlan education logo">
+            <h1>SmartPlan</h1>
+            <p>Your personal academic workspace</p>
+        </div>
+
+        <div class="auth-tabs">
+            <button type="button" class="auth-tab active" id="login-tab">
+                Login
+            </button>
+            <button type="button" class="auth-tab" id="signup-tab">
+                Sign Up
+            </button>
+        </div>
+
+        <form id="auth-form">
+            <h2 id="auth-heading">Welcome back!</h2>
+            <p id="auth-description">Login to continue to SmartPlan.</p>
+
+            <label for="auth-name" id="name-label" hidden>Full Name</label>
+            <input
+                type="text"
+                id="auth-name"
+                placeholder="Enter your full name"
+                autocomplete="name"
+                hidden
+            >
+
+            <label for="auth-email">Email Address</label>
+            <input
+                type="email"
+                id="auth-email"
+                placeholder="Enter your email"
+                autocomplete="email"
+                required
+            >
+
+            <label for="auth-password">Password</label>
+            <div class="password-field">
+                <input
+                    type="password"
+                    id="auth-password"
+                    placeholder="Enter your password"
+                    autocomplete="current-password"
+                    minlength="6"
+                    required
+                >
+                <button type="button" id="toggle-password">
+                    Show
+                </button>
+            </div>
+
+            <div class="auth-form-links" id="auth-form-links">
+                <button type="button" class="auth-link" id="forgot-password-btn">Forgot password?</button>
+            </div>
+
+            <p id="auth-error" class="auth-error" role="alert"></p>
+
+            <button type="submit" id="auth-submit" class="auth-submit">
+                Login
+            </button>
+        </form>
+
+        <p class="auth-footer">
+            Your academic journey, organized.
+        </p>
+    </div>
+</section>
+
+    <aside class="sidebar">
+        <div class="brand">
+            <img class="brand-icon" src="./smartplan-logo.png" alt="SmartPlan logo">
+            <div>
+                <h2>SmartPlan</h2>
+                <p>Student workspace</p>
+            </div>
+        </div>
+
+        <p class="nav-heading">MENU</p>
+
+        <nav class="navigation">
+            <button class="nav-link active" data-view="dashboard">▦ Dashboard</button>
+            <button class="nav-link" data-view="assignments">☷ Assignments</button>
+            <button class="nav-link" data-view="planner">▦ Smart Calendar</button>
+            <button class="nav-link" data-view="analytics">◔ Study Analytics</button>
+            <button class="nav-link" data-view="focus">⏱ Focus Mode</button>
+            <button class="nav-link" data-view="notes">▤ Notes & Resources</button>
+            <button class="nav-link" data-view="achievements">🏆 Streaks & Achievements</button>
+            <button class="nav-link" data-view="assistant">✦ AI Study Assistant</button>
+            <button class="nav-link" data-view="profile">👤 User Profile</button>
+        </nav>
+
+        <div class="sidebar-note">
+            <span>✦</span>
+            <h3>Stay on track!</h3>
+            <p>Small steps every day lead to big results.</p>
+        </div>
+
+        <div class="sidebar-footer">Made for your success ✨</div>
+        <button type="button" id="logout-btn" class="secondary-button">
+  🚪 Log Out
+</button>
+    </aside>
+
+
+    <main class="main-content">
+        <header class="topbar">
+    <div>
+        <p class="eyebrow">YOUR PERSONAL WORKSPACE</p>
+        <h1 id="page-title">Dashboard</h1>
+    </div>
+
+    <div class="topbar-actions">
+        <!-- Notification Bell -->
+<div class="notification-wrapper">
+    <button
+        type="button"
+        class="notification-bell"
+        id="notification-bell"
+        aria-label="Open notifications"
+        aria-expanded="false"
+    >
+        <span class="bell-icon">🔔</span>
+        <span class="notification-badge" id="notification-count" hidden>0</span>
+    </button>
+
+    <section
+        class="notification-panel"
+        id="notification-panel"
+        aria-label="Notifications"
+        hidden
+    >
+        <div class="notification-header">
+            <div>
+                <h3>Notifications</h3>
+                <p id="notification-summary">You're all caught up!</p>
+            </div>
+
+            <button
+                type="button"
+                class="notification-clear"
+                id="notification-clear"
+            >
+                Clear all
+            </button>
+        </div>
+
+        <div class="notification-list" id="notification-list">
+            <div class="notification-empty">
+                No notifications yet.
+            </div>
+        </div>
+    </section>
+</div>
+        <button type="button" class="secondary-button" id="change-password-btn">Change Password</button>
+
+        <button
+            type="button"
+            class="theme-toggle"
+            id="theme-toggle"
+            aria-label="Switch to dark mode"
+            title="Switch theme"
+        >
+            <span id="theme-icon">🌙</span>
+            <span id="theme-label">Dark Mode</span>
+        </button>
+
+        <button class="primary-button" id="add-assignment-btn">
+            <span>＋</span> Add Assignment
+        </button>
+    </div>
+</header>
+
+        <!-- DASHBOARD -->
+        <section class="page-view active" id="dashboard">
+            <div class="welcome-banner">
+                <div>
+                    <p class="eyebrow light">YOUR PROGRESS STARTS HERE</p>
+                    <h2>Make today count.</h2>
+                    <p>Organize your assignments and reach your goals, one task at a time.</p>
+                </div>
+                <div class="welcome-emoji">📚</div>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon purple">☷</div>
+                    <p>Total Assignments</p>
+                    <h2 id="total-assignments">0</h2>
+                    <span>All your tasks</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon orange">◷</div>
+                    <p>Pending</p>
+                    <h2 id="pending-assignments">0</h2>
+                    <span>Still to complete</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <p>Completed</p>
+                    <h2 id="completed-assignments">0</h2>
+                    <span>Tasks finished</span>
+                </article>
+
+                <article class="stat-card">
+                    <div class="stat-icon red">!</div>
+                    <p>Overdue</p>
+                    <h2 id="overdue-assignments">0</h2>
+                    <span>Past the deadline</span>
+                </article>
+            </div>
+
+            <div class="content-grid">
+                <section class="panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Upcoming Assignments</h2>
+                            <p>Your next tasks and deadlines</p>
+                        </div>
+                        <button class="text-button" data-view="assignments">View all →</button>
+                    </div>
+                    <div id="upcoming-assignments" class="assignment-list"></div>
+                </section>
+
+                <section class="panel progress-panel">
+                    <div class="panel-heading">
+                        <div>
+                            <h2>Overall Progress</h2>
+                            <p>Keep moving forward</p>
+                        </div>
+                    </div>
+                    <div class="progress-circle" id="progress-circle">
+                        <div>
+                            <strong id="progress-percentage">0%</strong>
+                            <span>Completed</span>
+                        </div>
+                    </div>
+                    <div class="progress-track">
+                        <div class="progress-fill" id="progress-fill"></div>
+                    </div>
+                    <p class="muted center" id="progress-message">Add an assignment to get started!</p>
+                </section>
+            </div>
+        </section>
+
+        <!-- ASSIGNMENTS -->
+        <section class="page-view" id="assignments">
+            <div class="section-intro">
+                <h2>All Assignments</h2>
+                <p>Manage, search and complete your tasks.</p>
+            </div>
+
+            <div class="toolbar">
+                <input type="search" id="search-assignments"
+                       placeholder="Search assignments or subjects...">
+
+                <select id="status-filter" aria-label="Filter by status">
+                    <option value="all">All statuses</option>
+                    <option value="pending">Pending</option>
+                    <option value="completed">Completed</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+            </div>
+
+            <div id="all-assignments" class="assignment-list"></div>
+        </section>
+
+        <!-- SMART CALENDAR -->
+        <section class="page-view" id="planner">
+            <div class="section-intro calendar-intro">
+                <div><h2>Smart Calendar</h2><p>See every assignment deadline at a glance.</p></div>
+                <button type="button" class="primary-button" id="calendar-add-btn">＋ Add Assignment</button>
+            </div>
+            <div class="calendar-panel">
+                <div class="calendar-toolbar">
+                    <div class="calendar-month-controls">
+                        <button type="button" class="calendar-nav-btn" id="calendar-prev" aria-label="Previous month">‹</button>
+                        <h3 id="calendar-month-label">Month Year</h3>
+                        <button type="button" class="calendar-nav-btn" id="calendar-next" aria-label="Next month">›</button>
+                    </div>
+                    <button type="button" class="calendar-today-btn" id="calendar-today">Today</button>
+                </div>
+                <div class="calendar-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+                <div id="calendar-grid" class="calendar-grid" aria-label="Assignment calendar"></div>
+                <div class="calendar-legend"><span><i class="legend-dot due"></i> Assignment due</span><span><i class="legend-dot done"></i> Completed</span><span><i class="legend-dot today"></i> Today</span></div>
+            </div>
+            <section class="calendar-day-panel">
+                <div class="calendar-day-heading"><div><p class="eyebrow">SELECTED DATE</p><h3 id="calendar-selected-label">Upcoming assignments</h3></div><span id="calendar-day-count" class="calendar-count">0 tasks</span></div>
+                <div id="calendar-day-assignments" class="assignment-list"></div>
+            </section>
+        </section>
+
+        <!-- ANALYTICS -->
+        <section class="page-view" id="analytics">
+            <div class="section-intro">
+                <h2>Your Analytics</h2>
+                <p>A simple overview of your study progress.</p>
+            </div>
+
+            <div class="stats-grid">
+                <article class="stat-card">
+                    <div class="stat-icon purple">☷</div>
+                    <p>Total Assignments</p>
+                    <h2 id="analytics-total">0</h2>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon green">✓</div>
+                    <p>Completed</p>
+                    <h2 id="analytics-completed">0</h2>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon orange">◷</div>
+                    <p>Pending</p>
+                    <h2 id="analytics-pending">0</h2>
+                </article>
+                <article class="stat-card">
+                    <div class="stat-icon red">!</div>
+                    <p>Overdue</p>
+                    <h2 id="analytics-overdue">0</h2>
+                </article>
+            </div>
+
+            <section class="panel analytics-panel">
+                <h2>Completion Summary</h2>
+                <p id="analytics-summary">You haven't added any assignments yet.</p>
+                <div class="progress-track large-track">
+                    <div class="progress-fill" id="analytics-progress-fill"></div>
+                </div>
+                <p id="analytics-progress-text">0% completed</p>
+            </section>
+            <section class="panel analytics-panel"><h2>Subject breakdown</h2><p class="muted">Assignments grouped by subject.</p><div id="subject-breakdown" class="subject-breakdown"></div></section>
+            <section class="panel analytics-panel"><h2>Recent completion activity</h2><p class="muted">Completed assignments recorded over the last 7 days.</p><div id="weekly-activity" class="weekly-activity"></div></section>
+        </section>
+
+        <!-- FOCUS MODE -->
+        <section class="page-view" id="focus">
+          <div class="section-intro"><h2>Focus Mode</h2><p>Work in focused sessions and take meaningful breaks.</p></div>
+          <div class="feature-grid">
+            <section class="panel focus-card">
+              <p class="eyebrow">POMODORO TIMER</p><div class="focus-mode-tabs"><button class="feature-button active" data-focus-min="25">Focus · 25m</button><button class="feature-button" data-focus-min="5">Short break · 5m</button><button class="feature-button" data-focus-min="15">Long break · 15m</button></div>
+              <div class="focus-clock" id="focus-clock">25:00</div><p class="muted center" id="focus-status">Ready when you are.</p>
+              <div class="focus-actions"><button class="primary-button" id="focus-start">Start</button><button class="secondary-button" id="focus-reset">Reset</button></div>
+              <p class="muted center">Completed focus sessions: <strong id="focus-sessions">0</strong></p>
+            </section>
+            <section class="panel"><h3>Focus tips</h3><ul class="feature-list"><li>Choose one assignment before starting.</li><li>Keep your phone away during focus time.</li><li>Use breaks to stretch and hydrate.</li></ul></section>
+          </div>
+        </section>
+
+        <!-- NOTES -->
+        <section class="page-view" id="notes">
+          <div class="section-intro"><h2>Notes & Resources</h2><p>Keep useful study notes and links together.</p></div>
+          <section class="panel"><form id="note-form" class="feature-form"><label>Note title<input id="note-title" required maxlength="90" placeholder="e.g. Operating Systems - Deadlocks"></label><label>Subject<input id="note-subject" maxlength="60" placeholder="e.g. Operating Systems"></label><label>Notes / resource URL<textarea id="note-body" rows="4" placeholder="Write your notes or paste a useful link..."></textarea></label><button class="primary-button" type="submit">＋ Save Note</button></form></section>
+          <div id="notes-list" class="notes-grid"></div>
+        </section>
+
+        <!-- ACHIEVEMENTS -->
+        <section class="page-view" id="achievements">
+          <div class="section-intro"><h2>Streaks & Achievements</h2><p>Celebrate consistency and every completed assignment.</p></div>
+          <div class="stats-grid"><article class="stat-card"><div class="stat-icon orange">🔥</div><p>Current streak</p><h2 id="current-streak">0 days</h2><span>Based on completion dates recorded from now on</span></article><article class="stat-card"><div class="stat-icon purple">🏅</div><p>Tasks completed</p><h2 id="achievement-completed">0</h2><span>Every finish counts</span></article><article class="stat-card"><div class="stat-icon green">🎯</div><p>Focus sessions</p><h2 id="achievement-focus">0</h2><span>Pomodoro sessions completed</span></article><article class="stat-card"><div class="stat-icon red">⭐</div><p>Achievements</p><h2 id="achievement-count">0</h2><span>Milestones unlocked</span></article></div>
+          <section class="panel"><h3>Your badges</h3><div id="achievement-badges" class="badge-grid"></div></section>
+        </section>
+
+        <!-- ASSISTANT -->
+        <section class="page-view" id="assistant">
+          <div class="section-intro"><h2>AI Study Assistant</h2><p>Your built-in study helper for planning and breaking down work.</p></div>
+          <div class="assistant-notice">✦ Offline study helper · For live generative AI answers, connect a secure AI service/API.</div>
+          <section class="panel assistant-panel"><div id="assistant-messages" class="assistant-messages"><div class="assistant-message bot">Hey! Tell me what you’re studying, or ask me to make a simple study plan from your assignments.</div></div><form id="assistant-form" class="assistant-form"><input id="assistant-input" required placeholder="e.g. Help me plan my study for tomorrow..."><button class="primary-button" type="submit">Send</button></form><div class="assistant-shortcuts"><button class="feature-button" data-assistant-prompt="Make a study plan for my pending assignments">Plan my assignments</button><button class="feature-button" data-assistant-prompt="Give me tips to stay focused while studying">Focus tips</button><button class="feature-button" data-assistant-prompt="How should I prepare for an exam?">Exam preparation</button></div></section>
+        </section>
+
+        <!-- PROFILE -->
+        <section class="page-view" id="profile">
+          <div class="section-intro"><h2>User Profile</h2><p>Manage your SmartPlan student profile.</p></div>
+          <section class="panel profile-panel"><div class="profile-avatar" id="profile-avatar">S</div><form id="profile-form" class="feature-form"><label>Full name<input id="profile-name" maxlength="80" placeholder="Your full name"></label><label>Email address<input id="profile-email" type="email" disabled></label><label>Course / class<input id="profile-course" maxlength="100" placeholder="e.g. B.Tech Computer Science"></label><label>Study goal<textarea id="profile-goal" rows="3" maxlength="300" placeholder="What are you working towards?"></textarea></label><button class="primary-button" type="submit">Save Profile</button></form><p class="muted">Profile preferences are saved in this browser. Your sign-in email remains managed by Firebase.</p></section>
+        </section>
+
+        <footer class="main-footer">SmartPlan · Plan better, stress less. ✨</footer>
+    </main>
+
+    <!-- ADD / EDIT MODAL -->
+    <div class="modal-overlay" id="assignment-modal" hidden>
+        <section class="modal" role="dialog" aria-modal="true"
+                 aria-labelledby="modal-title">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">YOUR TASK</p>
+                    <h2 id="modal-title">Add Assignment</h2>
+                </div>
+                <button type="button" class="close-button"
+                        data-close-modal aria-label="Close">×</button>
+            </div>
+
+            <form id="assignment-form">
+                <label for="assignment-title">Assignment title *</label>
+                <input id="assignment-title" name="title" type="text"
+                       maxlength="120" placeholder="e.g. Database project" required>
+
+                <label for="assignment-subject">Subject</label>
+                <input id="assignment-subject" name="subject" type="text"
+                       maxlength="80" placeholder="e.g. Computer Science">
+
+                <div class="form-row">
+                    <div>
+                        <label for="assignment-due-date">Due date *</label>
+                        <input id="assignment-due-date" name="dueDate"
+                               type="date" required>
+                    </div>
+                    <div>
+                        <label for="assignment-priority">Priority</label>
+                        <select id="assignment-priority" name="priority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="assignment-description">Description (optional)</label>
+                <textarea id="assignment-description" name="description"
+                          rows="3" maxlength="1000"
+                          placeholder="Add a few details..."></textarea>
+
+                <div class="modal-actions">
+                    <button type="button" class="secondary-button"
+                            data-close-modal>Cancel</button>
+                    <button type="submit" class="primary-button"
+                            id="save-assignment-btn">Save Assignment</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- CHANGE PASSWORD MODAL -->
+    <div class="modal-overlay" id="change-password-modal" hidden>
+        <section class="modal password-modal" role="dialog" aria-modal="true" aria-labelledby="change-password-title">
+            <div class="modal-heading">
+                <div>
+                    <p class="eyebrow">ACCOUNT SECURITY</p>
+                    <h2 id="change-password-title">Change Password</h2>
+                </div>
+                <button type="button" class="close-button" id="close-password-modal" aria-label="Close">×</button>
+            </div>
+            <form id="change-password-form">
+                <label for="current-password">Current password</label>
+                <div class="change-password-field">
+                    <input id="current-password" type="password" autocomplete="current-password" required>
+                    <button type="button" class="password-visibility-toggle" data-password-target="current-password" aria-pressed="false">Show</button>
+                </div>
+                <label for="new-password">New password</label>
+                <div class="change-password-field">
+                    <input id="new-password" type="password" autocomplete="new-password" minlength="6" required>
+                    <button type="button" class="password-visibility-toggle" data-password-target="new-password" aria-pressed="false">Show</button>
+                </div>
+                <label for="confirm-new-password">Confirm new password</label>
+                <div class="change-password-field">
+                    <input id="confirm-new-password" type="password" autocomplete="new-password" minlength="6" required>
+                    <button type="button" class="password-visibility-toggle" data-password-target="confirm-new-password" aria-pressed="false">Show</button>
+                </div>
+                <p id="change-password-message" class="auth-error" role="status" aria-live="polite"></p>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-button" id="cancel-password-change">Cancel</button>
+                    <button type="submit" class="primary-button" id="save-new-password">Update Password</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+    <script src="./script.js"></script>
+    <script src="./features.js"></script>
+    <script type="module" src="./auth.js"></script>
+</body>
+</html>
